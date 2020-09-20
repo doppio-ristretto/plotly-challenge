@@ -3,21 +3,21 @@ d3.json("samples.json").then((bbData) => {
     console.log(bbData);
     var data = bbData;
   
-    // Add ID#s to dropdown menu
+
     var idList = data.names;
     for (var i = 0; i < idList.length; i++) {
       selectBox = d3.select("#selDataset");
       selectBox.append("option").text(idList[i]);
     }
   
-    // Set up default plot
+
     updatePlots(0)
   
-    // Function for updating plots   
+
     function updatePlots(index) {
   
   
-      // Set up arrays for horizontal bar chart & gauge chart
+
       var sampleSubjectOTUs = data.samples[index].otu_ids;
       console.log(sampleSubjectOTUs);
       var sampleSubjectFreq = data.samples[index].sample_values;
@@ -27,12 +27,12 @@ d3.json("samples.json").then((bbData) => {
       console.log(washFrequency);
   
   
-      // Populate Demographic Data card
+ 
       var demoKeys = Object.keys(data.metadata[index]);
       var demoValues = Object.values(data.metadata[index])
       var demographicData = d3.select('#sample-metadata');
   
-      // clear demographic data
+
       demographicData.html("");
   
       for (var i = 0; i < demoKeys.length; i++) {
@@ -41,14 +41,14 @@ d3.json("samples.json").then((bbData) => {
       };
   
   
-      // Slice and reverse data for horizontal bar chart
+
       var topTenOTUS = sampleSubjectOTUs.slice(0, 10).reverse();
       var topTenFreq = sampleSubjectFreq.slice(0, 10).reverse();
       var topTenToolTips = data.samples[0].otu_labels.slice(0, 10).reverse();
       var topTenLabels = topTenOTUS.map((otu => "OTU " + otu));
       var reversedLabels = topTenLabels.reverse();
   
-      // Set up trace
+
       var trace1 = {
         x: topTenFreq,
         y: reversedLabels,
@@ -58,10 +58,10 @@ d3.json("samples.json").then((bbData) => {
         orientation: "h"
       };
   
-      // data
+
       var barData = [trace1];
   
-      // Apply  layout
+
       var layout = {
         title: "Top 10 OTUs",
         margin: {
@@ -72,10 +72,10 @@ d3.json("samples.json").then((bbData) => {
         }
       };
   
-      // Render the plot to the div tag with id "plot"
+
       Plotly.newPlot("bar", barData, layout);
   
-      // Set up trace
+
       trace2 = {
         x: sampleSubjectOTUs,
         y: sampleSubjectFreq,
@@ -88,10 +88,10 @@ d3.json("samples.json").then((bbData) => {
         }
       }
   
-      //data
+
       var bubbleData = [trace2];
   
-      // Apply layout
+
       var layout = {
         title: 'OTU Frequency',
         showlegend: false,
@@ -99,10 +99,10 @@ d3.json("samples.json").then((bbData) => {
         width: 930
       }
   
-      // Render the plot to the div tag with id "bubble-plot"
+
       Plotly.newPlot("bubble", bubbleData, layout)
   
-      // Gauge chart
+
   
       var trace3 = [{
         domain: {x: [0, 1], y: [0,1]},
@@ -143,17 +143,17 @@ d3.json("samples.json").then((bbData) => {
   
     }
   
-    // On button click, call refreshData()
+
     d3.selectAll("#selDataset").on("change", refreshData);
   
   
   
     function refreshData() {
       var dropdownMenu = d3.select("#selDataset");
-      // Assign the value of the dropdown menu option to a variable
+
       var personsID = dropdownMenu.property("value");
       console.log(personsID);
-      // Initialize an empty array for the person's data
+
       console.log(data)
   
       for (var i = 0; i < data.names.length; i++) {
